@@ -1,3 +1,5 @@
+# [************************] @Marek Ostrowski [************************]
+
 #1. Napisz program, który oblicza pole trójkąta na podstawie długości dwóch boków i kąta między nimi.
 #2. Stwórz program, który zamienia temperaturę w stopniach Celsiusza na stopnie Fahrenheita.
 #3. Napisz skrypt, który odczytuje plik tekstowy i podaje liczbę słów, liczbę linii oraz liczbę znaków w tym pliku.
@@ -38,9 +40,8 @@
 #    print(f"{Celc} Celsious = {calculate} Fahrenheita")
 #Fahr_calc()
 
-
 #3
-
+#
 #def input_calc():
 #    with open(r"test.txt", 'r') as file:
 #        count = 0
