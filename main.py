@@ -134,7 +134,7 @@
 
 
 
-#9 Napisz skrypt, który pobiera dane od użytkownika dotyczące jego imienia, wieku i ulubionego koloru, a następnie zapisuje je do pliku.
+#9
 
 def info_file():
     #config
