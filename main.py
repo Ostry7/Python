@@ -122,13 +122,33 @@
 
 
 #8
-import math
-def factorial():
-    print(f"Select number in factorial: ")
-    number = int(input())
-    if number > 1:
-        result = math.factorial(number)
-        print(result)
-    return 1
-factorial()
+#import math
+#def factorial():
+#    print(f"Select number in factorial: ")
+#    number = int(input())
+#    if number > 1:
+#        result = math.factorial(number)
+#        print(result)
+#    return 1
+#factorial()
+
+
+
+#9 Napisz skrypt, który pobiera dane od użytkownika dotyczące jego imienia, wieku i ulubionego koloru, a następnie zapisuje je do pliku.
+
+def info_file():
+    #config
+    file_name = 'test2.txt'
+    print(f"What is your name? ")
+    name = input()
+    print(f"How old are you? ")
+    age = input()
+    print(f"What is your favourite colour? ")
+    colour = input()
+
+    with open(file_name,'w') as my_file:
+        my_file.write(f"Hello {name}, you are {age} years old and your fav colour is {colour}")
+        my_file.close
+info_file()
+
 
