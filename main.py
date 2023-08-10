@@ -99,24 +99,36 @@
 #word_reverse()
 
 
-#7 Napisz program, który generuje losowe hasło o określonej długości składające się z liter, cyfr i znaków specjalnych.
-import random
-import string
+#7
 
-def generate_password():
-    letters = string.ascii_letters
-    digits = string.digits
-    special_chars = string.punctuation
-    alphabet = letters + digits + special_chars
-    password = []
-    pwd = ""
-    print(f'Select password length: ')
-    password_len = int(input())
-    for i in range(password_len):
-        password += ' '.join(random.choice(alphabet))
-    for ele in password:
-        pwd += ele
-    print(pwd)
-generate_password()
+#import random
+#import string
+#
+#def generate_password():
+#    letters = string.ascii_letters
+#    digits = string.digits
+#    special_chars = string.punctuation
+#    alphabet = letters + digits + special_chars
+#    password = []
+#    pwd = ""
+#    print(f'Select password length: ')
+#    password_len = int(input())
+#    for i in range(password_len):
+#        password += ' '.join(random.choice(alphabet))
+#    for ele in password:
+#        pwd += ele
+#    print(pwd)
+#generate_password()
 
+
+#8
+import math
+def factorial():
+    print(f"Select number in factorial: ")
+    number = int(input())
+    if number > 1:
+        result = math.factorial(number)
+        print(result)
+    return 1
+factorial()
 
