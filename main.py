@@ -5,7 +5,7 @@
 #3. Napisz skrypt, który odczytuje plik tekstowy i podaje liczbę słów, liczbę linii oraz liczbę znaków w tym pliku.
 #4. Stwórz funkcję, która znajduje wszystkie liczby pierwsze w danym przedziale liczb.
 #5. Napisz program, który odwraca kolejność znaków w podanym przez użytkownika zdaniu.
-#6. Stwórz prostą grę w kółko i krzyżyk dla dwóch graczy.
+#6. Stwórz prostą grę w kółko i krzyżyk dla dwóch graczy.   //later
 #7. Napisz program, który generuje losowe hasło o określonej długości składające się z liter, cyfr i znaków specjalnych.
 #8. Stwórz funkcję, która oblicza silnię dla danej liczby całkowitej.
 #9. Napisz skrypt, który pobiera dane od użytkownika dotyczące jego imienia, wieku i ulubionego koloru, a następnie zapisuje je do pliku.
@@ -85,16 +85,38 @@
 
 #5
 
-def word_reverse():
-    print(f"Input word")
-    word = input()
-    splitedWord = word.split()
-    wordCount = len(splitedWord)
-    if wordCount == 1:
-        stringLen = len(word)
-        rewerse = word[stringLen::-1]
-        print(f"Normal word: {word} but in reverse: {rewerse}")
-    else:
-        print(f"Put ONE word ONLY!")
-word_reverse()
+#def word_reverse():
+#    print(f"Input word")
+#    word = input()
+#    splitedWord = word.split()
+#    wordCount = len(splitedWord)
+#    if wordCount == 1:
+#        stringLen = len(word)
+#        rewerse = word[stringLen::-1]
+#        print(f"Normal word: {word} but in reverse: {rewerse}")
+#    else:
+#        print(f"Put ONE word ONLY!")
+#word_reverse()
+
+
+#7 Napisz program, który generuje losowe hasło o określonej długości składające się z liter, cyfr i znaków specjalnych.
+import random
+import string
+
+def generate_password():
+    letters = string.ascii_letters
+    digits = string.digits
+    special_chars = string.punctuation
+    alphabet = letters + digits + special_chars
+    password = []
+    pwd = ""
+    print(f'Select password length: ')
+    password_len = int(input())
+    for i in range(password_len):
+        password += ' '.join(random.choice(alphabet))
+    for ele in password:
+        pwd += ele
+    print(pwd)
+generate_password()
+
 
