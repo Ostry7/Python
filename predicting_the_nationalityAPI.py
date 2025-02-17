@@ -1,5 +1,4 @@
 import requests
-import json
 from operator import itemgetter
 
 #https://api.nationalize.io?name=johnson    -> to guess the nationality
