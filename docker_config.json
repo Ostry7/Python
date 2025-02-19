@@ -9,7 +9,11 @@
         "image": "nginx:latest",
         "ports": {
           "80": "80"
-        }
+        },
+        "volumes": [
+          "c:/Users/ostro/Desktop/node-service.yaml:/home/node-service.yaml"
+        ]
+        
       },
     "postgres": {
       "image": "postgres:latest",
@@ -21,6 +25,6 @@
       "ports": {
         "5432": "5432"
       }
-    }    
+    }
   }
   
