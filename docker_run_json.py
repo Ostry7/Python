@@ -1,8 +1,10 @@
 import docker
 import json
 import time
+import csv
 
 client = docker.from_env()  #Connect to Docker using the default socket or the configuration in your environment
+csv_file = 'container_stats.csv'
 
 def launch_containers(filename, existing_containers_info):
     with open(filename) as f:
@@ -55,36 +57,48 @@ def delete_unused_containers():
             except Exception as e:
                 print (f'Error while removing {container.name}: {e}')
 
-
-
 def containers_monitor(interval=5):
+
     try:
         while True:
             print('Current container status')
             containers = client.containers.list(all=True)
+
             if not containers:
                 print('There is no running containers')
-            for container in containers:
-                stats = container.stats(stream=False)     #get statistics
-                #CPU Calculation:
-                cpu_delta = stats["cpu_stats"]["cpu_usage"]["total_usage"] - stats["precpu_stats"]["cpu_usage"]["total_usage"]
-                system_delta = stats["cpu_stats"]["system_cpu_usage"] - stats["precpu_stats"]["system_cpu_usage"]
-                cpu_usage = (cpu_delta / system_delta) * len(stats["cpu_stats"]["cpu_usage"]["percpu_usage"]) * 100 if system_delta > 0 else 0
-                
-                # Memory Usage calculation:
-                mem_usage = stats["memory_stats"]["usage"] / (1024 * 1024)  # MB
-                mem_limit = stats["memory_stats"]["limit"] / (1024 * 1024)  # MB
-                mem_percentage = (mem_usage / mem_limit) * 100 if mem_limit > 0 else 0
+            
+            with open(csv_file, mode='a', newline='') as file:
+                writer = csv.writer(file)
 
-                print(f'Container {container.name} | Status: {container.status}')
-                print(f'CPU: {cpu_usage:.2f}% | RAM: {mem_usage:.2f}MB / {mem_limit:.2f}MB ({mem_percentage:.2f}%)')
+                for container in containers:
+                    stats = container.stats(stream=False)     #get statistics
+                    #CPU Calculation:
+                    cpu_delta = stats["cpu_stats"]["cpu_usage"]["total_usage"] - stats["precpu_stats"]["cpu_usage"]["total_usage"]
+                    system_delta = stats["cpu_stats"]["system_cpu_usage"] - stats["precpu_stats"]["system_cpu_usage"]
+                    cpu_usage = (cpu_delta / system_delta) * len(stats["cpu_stats"]["cpu_usage"]["percpu_usage"]) * 100 if system_delta > 0 else 0
+
+                    # Memory Usage calculation:
+                    mem_usage = stats["memory_stats"]["usage"] / (1024 * 1024)  # MB
+                    mem_limit = stats["memory_stats"]["limit"] / (1024 * 1024)  # MB
+                    mem_percentage = (mem_usage / mem_limit) * 100 if mem_limit > 0 else 0
+
+                    print(f'Container {container.name} | Status: {container.status}')
+                    print(f'CPU: {cpu_usage:.2f}% | RAM: {mem_usage:.2f}MB / {mem_limit:.2f}MB ({mem_percentage:.2f}%)')
+
+                    writer.writerow([
+                        container.name,
+                        round(cpu_usage, 2),
+                        round(mem_percentage, 2)
+                    ])
         time.sleep(interval)
     except KeyboardInterrupt:
         print ('Stopping monitoring...')
+    finally:
+        print (f'Monitoring data saved in {csv_file}')
 
 #existing_containers_info = all_container_list()
 #delete_unused_containers()
 #launch_containers('docker_config.json', existing_containers_info)     
 #stop_containers()
-containers_monitor()
+#containers_monitor()
 
