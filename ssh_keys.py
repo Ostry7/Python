@@ -3,26 +3,30 @@
 #delete ssh key based on path
 #rotate: delete old ssh key and generete new one
 
+#generate key
+#sudo mkdir -p /home/USERNAME/.ssh
+#sudo chmod 700 /home/USERNAME/.ssh
+#sudo touch /home/USERNAME/.ssh/authorized_keys
+#sudo chmod 600 /home/USERNAME/.ssh/authorized_keys
+#cat ~/key.pub >> ~USERNAME/.ssh/authorized_keys
+#sudo chown -R USERNAME:USERNAME /home/USERNAME/.ssh
+
 import paramiko
-import os
-import subprocess
-import logging
-from datetime import datetime
 
-# Konfiguracja logowania
-log_file = "ssh_key_management.log"
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', filename=log_file)
+#username = input('Enter username')
+hostname = '192.168.5.100'  #local CENTOS
+keypair= 'C:/Users/ostro/.ssh/id_ed25519' #key filename included
 
-def execute_ssh_command(host, user, command):
-    try:
-        client = paramiko.SSHClient()
-        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        client.connect(hostname=host, username=user)
-        stdin, stdout, stderr = client.exec_command(command)
-        output = stdout.read().decode()
-        error = stderr.read().decode()
-        client.close()
-        return output, error
-    except Exception as e:
-        logging.error(f"Błąd połączenia z {host}: {e}")
-        return None, str(e)
+client = paramiko.SSHClient()
+client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+client.connect(hostname, key_filename=keypair)
+stdin, stdout, stderr = client.exec_command("sudo mkdir /home/jas/")
+
+print(stdout.read().decode())
+stdout.close()
+stdin.close()
+client.close()
+
+
+#def createkey():
+#    command = 
