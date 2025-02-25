@@ -12,10 +12,10 @@ def execute_ssh_command(hostname, user, command,key_path):
         output = stdout.read().decode()
         error = stderr.read().decode()
         client.close()
-        return output, error  # Zawsze zwracamy output i error
+        return output, error  
     except Exception as e:
         print(f'Error during connection to {hostname}: {e}')
-        return "", str(e)  # Zwróć dwie wartości: pusty output i błąd
+        return "", str(e) 
 
 
 def generate_new_key(username):
@@ -24,7 +24,6 @@ def generate_new_key(username):
     private_key_path = os.path.join(key_dir, f'id_ed25519_{datetime.now().strftime("%Y-%m-%d")}')
     public_key_path = private_key_path + '.pub'
     print(public_key_path)
-    print('dupa')
 
     try:
         subprocess.run(
@@ -46,8 +45,7 @@ def send_ssh_key(user, username, host,public_key_path ):
             public_key = key_file.read().strip()
 
         
-        command = f'echo "{public_key}" >> /home/{username}/.ssh/authorized_keys'
-        #&& chmod 600 /home/{username}/.ssh/authorized_keys'
+        command = f'echo "{public_key}" | sudo tee -a /home/{username}/.ssh/authorized_keys &&  sudo chmod 600 /home/{username}/.ssh/authorized_keys'
         key_path = 'C:/Users/ostro/.ssh/id_ed25519'
         output, error = execute_ssh_command(host, user, command, key_path)
         if error:
@@ -56,7 +54,6 @@ def send_ssh_key(user, username, host,public_key_path ):
             print('Successfully generated key!')
     except FileNotFoundError:
         print('Cannot find public key')
-
 
 
 def main():
