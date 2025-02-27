@@ -71,10 +71,21 @@ def ngix_install_centos(ssh_client):
     
     print("Nginx installation complete!")
 
+def start_fastapi_app(ssh_client):
+    commands = [
+        "echo 'from fastapi import FastAPI\napp = FastAPI()\n@app.get(\"/\")\ndef hello():\n    return {\"message\": \"Hello, World from FastAPI!\"}\nif __name__ == \"__main__\":\n    import uvicorn\n    uvicorn.run(app, host=\"0.0.0.0\", port=8000)' | sudo tee /home/{user}/app.py",
+        'sudo ufw allow 8000/tcp',
+        'nohup /usr/bin/python3 /home/{user}/app.py > /home/{user}/app.log 2>&1 &'
+    ]
+    for cmd in commands:
+        print(f"Executing: {cmd}")
+        exec_command(ssh_client, cmd)
+    print("FastAPI app is running on port 8000!")
+
 def main():
-    host = "192.168.5.100"
+    host = "IP_ADDRESS"
     username = "USER"
-    key_file = "C:/keyfile_dir"
+    key_file = "KEY_FILE_DIR"
 
     ssh_client = connect_to_server(host, username, key_file=key_file)
     if ssh_client:
@@ -84,6 +95,7 @@ def main():
             ngix_install_ubuntu(ssh_client)
         elif 'CentOS' in os_type:
             ngix_install_centos(ssh_client)
+        start_fastapi_app(ssh_client)
         ssh_client.close()
 
 if __name__ == "__main__":
