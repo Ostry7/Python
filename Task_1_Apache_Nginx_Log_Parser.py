@@ -1,4 +1,4 @@
-import re, csv
+import re, csv, json
 from collections import Counter
 
 ip_reg = r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}"
@@ -6,6 +6,8 @@ ip_reg = r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}"
 status_req_reg = r'"(?:GET|POST) .* (4\d{2}|5\d{2})'
 
 f = open("apache-logs/apache_logs.txt")
+
+
 
 #parse logs
 with open("apache-logs/apache_logs.txt") as f:
@@ -23,9 +25,13 @@ for (ip,status), count in top_errors:
 
 
 #export csv
-with open ("errors.csv", 'w', newline='') as errorfile:
-        writer = csv.writer(errorfile)
+with open ("errors.csv", 'w', newline='') as f:
+        writer = csv.writer(f)
         writer.writerow(['IP', 'Status_code', 'Occurrences'])
         writer.writerows(top_errors)
 
-
+#export json
+json_data = [{"ip": ip, "status": status, "count": count}
+            for (ip,status), count in top_errors]
+with open ("errors.json", "w") as f:
+    json.dump(json_data, f, indent=2)
