@@ -20,9 +20,15 @@ status_req_reg = r'"(?:GET|POST) .* (4\d{2}|5\d{2})'
 ```
 ---> to match GET or POST with error code (4xx/5xx status codes)
 
-### Task 2: Ansible Vault Password Generator []
+### Task 2: Ansible Vault Password Generator [v]
 
 Create:
 - Secure password generator (24+ chars, letters/numbers/symbols)
 - Encrypt/decrypt test secret using cryptography.fernet
 - Save encrypted vault password to .vault_pass (permissions 600)
+
+1. For secure password generator I use `from ruled_password_generator import PasswordGenerator` with random user and password length. Also added some rules for creating user and password (`min_lowercase`, `min_special` etc.).
+
+2. For encrypting I user `from cryptography.fernet import Fernet`, also exporting key as file.
+
+3. Saving ansible vault file we need to specify a header `$ANSIBLE_VAULT;1.1;AES256\n`.
