@@ -19,3 +19,10 @@ and:
 status_req_reg = r'"(?:GET|POST) .* (4\d{2}|5\d{2})'
 ```
 ---> to match GET or POST with error code (4xx/5xx status codes)
+
+### Task 2: Ansible Vault Password Generator []
+
+Create:
+- Secure password generator (24+ chars, letters/numbers/symbols)
+- Encrypt/decrypt test secret using cryptography.fernet
+- Save encrypted vault password to .vault_pass (permissions 600)
