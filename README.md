@@ -32,3 +32,12 @@ Create:
 2. For encrypting I user `from cryptography.fernet import Fernet`, also exporting key as file.
 
 3. Saving ansible vault file we need to specify a header `$ANSIBLE_VAULT;1.1;AES256\n`.
+
+### Task 3: Terraform File Validator []
+
+Create:
+- Directory scanner for .tf files
+- Run terraform validate on each module
+- Parse HCL syntax errors with hcl2json
+- Generate validation-report.md with pass/fail status
+- Handle missing Terraform gracefully
