@@ -1,6 +1,7 @@
 import os
 import hcl2
 import subprocess
+from py_markdown_table.markdown_table import markdown_table
 
 directory_path = './terraform/'
 terraform_files_list = []
@@ -49,9 +50,37 @@ def terraform_parse():
         results.append({'file': terraform_file, 'status': status})
     return results
 
+
+def generate_report(hcl_results):
+    table_data = []
+    passes = sum(1 for r in hcl_results if "[v]" in r['status'])
+    
+    for result in hcl_results:
+        filename = os.path.basename(result['file'])
+        status = result['status'][:40]
+        result = "[v]" if "[v]" in status else "[X]"
+        
+        table_data.append({"File": filename, "Status": status, "Result": result})
+    
+    markdown_table_obj = markdown_table(table_data)
+    markdown = markdown_table_obj.get_markdown()
+    
+    report = f"""# Terraform Validation Report
+**Scanned**: {len(hcl_results)} files
+**PASS**: {passes}/{len(hcl_results)}
+
+{markdown}
+
+"""
+    
+    with open('validation-report.md', 'w') as f:
+        f.write(report)
+
 list_terraform_files()
 print(f"Found {len(terraform_files_list)} files .tf")
 print("TERRAFORM CLI ERRORS:")
 terraform_validate()
 print("HCL2 SYNTAX ERROR:")
 terraform_parse()
+hcl_results = terraform_parse()
+generate_report(hcl_results)
