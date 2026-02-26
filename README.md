@@ -33,7 +33,7 @@ Create:
 
 3. Saving ansible vault file we need to specify a header `$ANSIBLE_VAULT;1.1;AES256\n`.
 
-### Task 3: Terraform File Validator []
+### Task 3: Terraform File Validator [v]
 
 Create:
 - Directory scanner for .tf files
@@ -41,3 +41,46 @@ Create:
 - Parse HCL syntax errors with hcl2json
 - Generate validation-report.md with pass/fail status
 - Handle missing Terraform gracefully
+
+### Key elements:
+
+1. Directory scanner for `.tf` files:
+I'm using the `os` module to search `.tf` files:
+```python
+        elif entry.endswith('.tf'):
+            terraform_files_list.append(full_path)
+```
+
+2. Run terraform validate on each module:
+I'm using `subprocess` module to validate terraform:
+```python
+            result = subprocess.run(['terraform', 'validate', terraform_file],
+                                  capture_output=True, text=True, timeout=10)
+```
+
+3. Parse HCL syntax errors with hcl2json:
+Using the `hcl2` module we can check syntax errors:
+```python
+    for terraform_file in terraform_files_list:
+        try:
+            with open (terraform_file, 'r') as file:
+                dict = hcl2.load(file)
+            status = "[v] PASS"
+
+        except Exception as e:
+            status = f'[X] FAIL: {e}'
+```
+
+4. Generate validation-report.md with pass/fail status
+Using  `markdown_table` I we can create a MD table:
+```python
+    for result in hcl_results:
+        filename = os.path.basename(result['file'])
+        status = result['status'][:40]
+        result = "[v]" if "[v]" in status else "[X]"
+        
+        table_data.append({"File": filename, "Status": status, "Result": result})
+    
+    markdown_table_obj = markdown_table(table_data)
+    markdown = markdown_table_obj.get_markdown()
+```
