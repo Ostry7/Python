@@ -84,3 +84,13 @@ Using  `markdown_table` I we can create a MD table:
     markdown_table_obj = markdown_table(table_data)
     markdown = markdown_table_obj.get_markdown()
 ```
+
+
+### Task 4 PostgreSQL Backup Automation []
+
+Create:
+- Script using `psycopg2` + `pg_dump`
+- Compress backup with gzip
+- Upload to S3 (boto3) or local storage
+- Delete backups older than retention period
+- Config from .env file
