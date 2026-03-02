@@ -1,4 +1,4 @@
-import psycopg2
+import psycopg2, subprocess, time
 
 DB_NAME = "devops_portfolio"
 DB_USER = "postgres"
@@ -14,7 +14,30 @@ def db_connect():
                                 password=DB_PASS,
                                 host=DB_HOST,
                                 port=DB_PORT)
-        print("Database connected successfully")
+        print("[SUCCESS]  Database connected successfully")
     except:
-        print("Database not connected successfully")
-db_connect()
+        print("[FAIL]  Database not connected successfully")
+
+
+def ssh_connect():
+    #sshpass apt required!
+    cmd = [
+        "sshpass", "-f", "pass.txt", "ssh", f"looser@{DB_HOST}",
+    ]
+    tunnel = subprocess.Popen(cmd)
+    
+    print(f"Connection wih {DB_HOST} established!")
+    time.sleep(2)
+    return tunnel
+
+def pg_dump_create():
+    cmd = [
+        "pwd"
+
+    ]
+    
+    subprocess.Popen(cmd)
+
+tunnel = ssh_connect()
+pg_dump_create()
+tunnel.terminate()
