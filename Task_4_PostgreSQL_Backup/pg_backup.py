@@ -30,11 +30,11 @@ def ssh_connect_and_backup():
 def gzip_backup():
     try:
         with open('backup.sql', 'rb') as f_in:
-            with gzip.open('backup.gz', 'wb') as f_out:
+            with gzip.open('backup.sql.gz', 'wb') as f_out:
                 shutil.copyfileobj(f_in, f_out)
                 print(f"[SUCCESS] Compress file = {os.path.realpath('backup.sql')}")
-    except:
-        print("[FAIL] Something went wrong with compressing the backup file!")
+    except Exception as e:
+        print(f"[FAIL] Compression error: {e}")
 
 
 tunnel = ssh_connect_and_backup()
