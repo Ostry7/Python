@@ -14,7 +14,7 @@ def ssh_connect_and_backup():
     ]
     tunnel = subprocess.Popen(cmd)
     print("[SSH] Tunnel 5433→5432 started!")
-    print(f"Connection wih {DB_HOST} established!")
+    print(f"[SUCESS] Connection wih {DB_HOST} established!")
     time.sleep(2)
     cmd_backup = [
         "pg_dump", "-h", "localhost", "-p", "5433", "-U",f"{DB_USER}", f"{DB_NAME}", "-f", "backup.sql"
@@ -35,7 +35,6 @@ def gzip_backup():
                 print(f"[SUCCESS] Compress file = {os.path.realpath('backup.sql')}")
     except:
         print("[FAIL] Something went wrong with compressing the backup file!")
-
 
 
 tunnel = ssh_connect_and_backup()
