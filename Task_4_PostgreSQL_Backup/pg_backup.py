@@ -1,4 +1,4 @@
-import subprocess, time, os
+import subprocess, time, os, gzip, shutil
 
 DB_NAME = "devops_portfolio"
 DB_USER = "backup_user"
@@ -10,7 +10,7 @@ def ssh_connect_and_backup():
     #sshpass apt required!
     os.environ['PGPASSWORD'] = DB_PASS
     cmd = [
-        "sshpass", "-f", "pass.txt", "ssh", "-L", "5433:localhost:5432", "-N", f"looser@{DB_HOST}",
+        "sshpass", "-f", "pass.txt", "ssh", "-L", f"5433:localhost:{DB_PORT}", "-N", f"looser@{DB_HOST}",
     ]
     tunnel = subprocess.Popen(cmd)
     print("[SSH] Tunnel 5433→5432 started!")
@@ -27,5 +27,16 @@ def ssh_connect_and_backup():
     tunnel.terminate()
     return result.returncode
 
+def gzip_backup():
+    try:
+        with open('backup.sql', 'rb') as f_in:
+            with gzip.open('backup.gz', 'wb') as f_out:
+                shutil.copyfileobj(f_in, f_out)
+                print(f"[SUCCESS] Compress file = {os.path.realpath('backup.sql')}")
+    except:
+        print("[FAIL] Something went wrong with compressing the backup file!")
+
+
 
 tunnel = ssh_connect_and_backup()
+gzip_backup()
