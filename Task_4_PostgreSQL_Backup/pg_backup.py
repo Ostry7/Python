@@ -8,6 +8,7 @@ DB_PORT = "5432"
 
 def ssh_connect_and_backup():
     #sshpass apt required!
+    os.environ['PGPASSWORD'] = DB_PASS
     cmd = [
         "sshpass", "-f", "pass.txt", "ssh", "-L", "5433:localhost:5432", "-N", f"looser@{DB_HOST}",
     ]
