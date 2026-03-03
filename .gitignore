@@ -4,3 +4,4 @@ key.secret
 Task_4_PostgreSQL_Backup/pass.txt
 Task_4_PostgreSQL_Backup/backup.sql
 Task_4_PostgreSQL_Backup/backup.gz
+.aws
