@@ -86,11 +86,25 @@ Using  `markdown_table` I we can create a MD table:
 ```
 
 
-### Task 4 PostgreSQL Backup Automation []
+### Task 4 PostgreSQL Backup Automation [v]
 
 Create:
-- Script using `psycopg2` + `pg_dump`
+- Script using `pg_dump`
 - Compress backup with gzip
 - Upload to S3 (boto3) or local storage
-- Delete backups older than retention period
-- Config from .env file
+
+
+### Key components:
+
+1. `pg_backup.py`:
+
+First of all the code trying to establish connection with `DB_HOST` and then try to create a `backup.sql` using the `pg_dump`.
+If the backup is created successfully next step is being performed ---> using `gzip` it will compress database dump as `backup.sql.gz` file.
+
+2. `aws_s3_push.py`:
+
+Using `boto3` the script will try to upload file to the AWS S3.
+
+3. `main.py`:
+
+The main file where all functions is being call.
