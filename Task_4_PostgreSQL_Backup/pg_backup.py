@@ -24,8 +24,17 @@ def ssh_connect_and_backup():
     if os.path.exists("backup.sql"):
         print(f"[SUCCESS] backup.sql = {os.path.getsize('backup.sql')/1024/1024:.1f}MB ")
     
+    is_backup_ok = (
+        result.returncode == 0 and      #pg_dump ok
+        os.path.exists("backup.sql")    #backup.sql exists
+    )
+
+    if is_backup_ok:
+        print(f"[SUCCESS]")
+    else:
+        print(f"[FAIL] Backup failed!")
     tunnel.terminate()
-    return result.returncode
+    return is_backup_ok
 
 def gzip_backup():
     try:
