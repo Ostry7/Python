@@ -42,5 +42,15 @@ def gzip_backup():
             with gzip.open('backup.sql.gz', 'wb') as f_out:
                 shutil.copyfileobj(f_in, f_out)
                 print(f"[SUCCESS] Compress file = {os.path.realpath('backup.sql')}")
+        
+        is_gzip_ok = (
+            os.path.exists("backup.sql.gz") #backup.sql.gz exists
+        )
     except Exception as e:
         print(f"[FAIL] Compression error: {e}")
+
+    if is_gzip_ok:
+        print("[SUCCESS]")
+    else: 
+        print("[FAIL] Compressing failed!")
+    return is_gzip_ok
