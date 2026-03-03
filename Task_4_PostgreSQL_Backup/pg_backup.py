@@ -35,7 +35,3 @@ def gzip_backup():
                 print(f"[SUCCESS] Compress file = {os.path.realpath('backup.sql')}")
     except Exception as e:
         print(f"[FAIL] Compression error: {e}")
-
-
-tunnel = ssh_connect_and_backup()
-gzip_backup()
