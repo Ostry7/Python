@@ -31,16 +31,16 @@ def collect_cpu_and_mem():
                 json.dump(stats_list, f, indent=2)            
             time.sleep(1)
 
-def monitor():
+def monitor(cpu_threshold, mem_threshold):
     while True:
         try:
             with open ('stats.json', 'r', encoding="utf-8") as f:
                 stats = json.load(f)
                 for stat in stats:
-                    if float(stat['cpu']) > 0.005:
-                        print(f"[==== {stat['container']} ==== CPU Usage is higher then selected threshold!")
-                    if float(stat["memory"]) > 0.005:
-                        print(f"[==== {stat['container']} ==== Memory Usage is higher then selected threshold!")
+                    if float(stat['cpu']) > cpu_threshold:
+                        print(f"[==== {stat['container']} ==== CPU Usage is higher then {cpu_threshold} threshold!")
+                    if float(stat["memory"]) > mem_threshold:
+                        print(f"[==== {stat['container']} ==== Memory Usage is higher then {mem_threshold} threshold!")
                     #print(f"{stat['container']}: {stat['timestamp']}")
                 
         except FileNotFoundError:
@@ -48,4 +48,4 @@ def monitor():
         time.sleep(5)
 
 #collect_cpu_and_mem()
-monitor()
+monitor(10,10)
