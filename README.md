@@ -108,3 +108,12 @@ Using `boto3` the script will try to upload file to the AWS S3.
 3. `main.py`:
 
 The main file where all functions is being call.
+
+
+### Task 5: Docker Resource Monitor []
+
+Create:
+- Connect to Docker daemon using docker-py
+- Collect CPU/memory/disk metrics for all containers
+- Alert when usage >80% (print + JSON webhook)
+- Continuous monitoring loop (30s intervals)
