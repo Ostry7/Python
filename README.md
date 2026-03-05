@@ -110,10 +110,20 @@ Using `boto3` the script will try to upload file to the AWS S3.
 The main file where all functions is being call.
 
 
-### Task 5: Docker Resource Monitor []
+### Task 5: Docker Resource Monitor [v]
 
 Create:
 - Connect to Docker daemon using docker-py
 - Collect CPU/memory/disk metrics for all containers
 - Alert when usage >80% (print + JSON webhook)
-- Continuous monitoring loop (30s intervals)
+- Continuous monitoring loop 
+
+### Key components:
+
+To connect to the docker daemon we're using:
+```python
+client = docker.from_env() #connect to the daemon
+containers = client.containers.list(all=False) #list of containers -> docker ps
+```
+
+We're collecting CPU and memory usage for all running containers using `def collect_cpu_and_mem()` function. Then we have a `def monitor(cpu_threshold, mem_threshold, monitoring_interval):` function with `cpu_threshold`, `mem_threshold` and `monitoring_interval` parameters.  Both functions have `while True` set infinite loop to all the time generate usage stats and to monitor them. All the data are saved in `stats.json` file.
