@@ -10,6 +10,7 @@ def ssh_connect(IP_ADDRESS,HOST_NAME,PORT,USER_NAME,PASSWORD):
     try:
         client = paramiko.SSHClient()
         client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+        #client.connect(hostname=IP_ADDRESS, username=USER_NAME, port=PORT, password=None, allow_agent=False, look_for_keys=False)
         client.connect(hostname=IP_ADDRESS, port=PORT, username=USER_NAME,  password=PASSWORD)
         print(f"SUCCESSFULLY CONNECTED TO THE {HOST_NAME} !")
         exec_commands(client, HOST_NAME)
