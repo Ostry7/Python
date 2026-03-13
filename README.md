@@ -128,10 +128,32 @@ containers = client.containers.list(all=False) #list of containers -> docker ps
 
 We're collecting CPU and memory usage for all running containers using `def collect_cpu_and_mem()` function. Then we have a `def monitor(cpu_threshold, mem_threshold, monitoring_interval):` function with `cpu_threshold`, `mem_threshold` and `monitoring_interval` parameters.  Both functions have `while True` set infinite loop to all the time generate usage stats and to monitor them. All the data are saved in `stats.json` file.
 
-### Task 6: SSH Bulk Command Executor[]
+### Task 6: SSH Bulk Command Executor[v]
 
 Create:
 - Connect to multiple hosts via `paramiko`
 - Load list of commands from a YAML file (similar to Ansible playbook, but pure Python)
 - Save output from each host to a separate log file
 - Handle connection timeouts and errors gracefully
+
+### Key components:
+
+First of all we need to create a bulk.yaml file with VMs and some commands:
+
+```yaml
+  - name: "DEADVM01"
+    ip: 192.168.68.241
+    port: 22
+    user: looser
+    password: "PASS"
+
+
+commands:
+  - uptime
+  - df -h
+  - free -m
+  - systemctl status nginx
+  - tail -n 20 /var/log/syslog
+```
+
+In our script we're using `paramiko` module (a pure-python implementation of the SSHv2 protocol). We have function `ssh_connect` to ssh to each VM and `exec_commands` to run commands from `bulk.yaml` file.
