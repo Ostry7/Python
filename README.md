@@ -157,3 +157,10 @@ commands:
 ```
 
 In our script we're using `paramiko` module (a pure-python implementation of the SSHv2 protocol). We have function `ssh_connect` to ssh to each VM and `exec_commands` to run commands from `bulk.yaml` file.
+
+### Task 7: Kubernetes Pod Health Checker []
+
+Create:
+- Kubernetes client using `kubernetes` library
+- Load kubeconfig from ~/.kube/config
+- Check pod readiness across namespaces
