@@ -1,0 +1,20 @@
+hosts:
+  - name: "HLDEBVM01"
+    ip: 192.168.68.240
+    port: 22
+    user: looser
+    password: "PASS"
+    
+  - name: "DEADVM01"
+    ip: 192.168.68.241
+    port: 22
+    user: looser
+    password: "PASS"
+
+
+commands:
+  - uptime
+  - df -h
+  - free -m
+  - systemctl status nginx
+  - tail -n 20 /var/log/syslog

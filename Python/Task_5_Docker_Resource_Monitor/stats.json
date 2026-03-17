@@ -1,0 +1,110 @@
+[
+  {
+    "timestamp": "2026-03-04T15:51:23.087515",
+    "container": "5mernstack-frontend-1",
+    "cpu": "0.0",
+    "memory": "1.8"
+  },
+  {
+    "timestamp": "2026-03-04T15:51:25.093528",
+    "container": "5mernstack-mongo_express-1",
+    "cpu": "0.0",
+    "memory": "2.1"
+  },
+  {
+    "timestamp": "2026-03-04T15:51:27.099147",
+    "container": "5mernstack-mongodb-1",
+    "cpu": "0.1",
+    "memory": "1.2"
+  },
+  {
+    "timestamp": "2026-03-04T15:51:29.105809",
+    "container": "3buildingasimplemulti-containerapplication-redis-1",
+    "cpu": "0.5",
+    "memory": "0.2"
+  },
+  {
+    "timestamp": "2026-03-04T15:51:31.113150",
+    "container": "5mernstack-frontend-1",
+    "cpu": "0.0",
+    "memory": "1.8"
+  },
+  {
+    "timestamp": "2026-03-04T15:51:33.119179",
+    "container": "5mernstack-mongo_express-1",
+    "cpu": "0.0",
+    "memory": "2.1"
+  },
+  {
+    "timestamp": "2026-03-04T15:51:35.133192",
+    "container": "5mernstack-mongodb-1",
+    "cpu": "0.1",
+    "memory": "1.3"
+  },
+  {
+    "timestamp": "2026-03-04T15:51:37.139199",
+    "container": "3buildingasimplemulti-containerapplication-redis-1",
+    "cpu": "0.5",
+    "memory": "0.2"
+  },
+  {
+    "timestamp": "2026-03-04T15:51:39.145554",
+    "container": "5mernstack-frontend-1",
+    "cpu": "0.0",
+    "memory": "1.8"
+  },
+  {
+    "timestamp": "2026-03-04T15:51:41.151679",
+    "container": "5mernstack-mongo_express-1",
+    "cpu": "0.0",
+    "memory": "2.1"
+  },
+  {
+    "timestamp": "2026-03-04T15:51:43.157524",
+    "container": "5mernstack-mongodb-1",
+    "cpu": "0.1",
+    "memory": "1.2"
+  },
+  {
+    "timestamp": "2026-03-04T15:51:45.171524",
+    "container": "3buildingasimplemulti-containerapplication-redis-1",
+    "cpu": "0.5",
+    "memory": "0.2"
+  },
+  {
+    "timestamp": "2026-03-04T15:51:47.177565",
+    "container": "5mernstack-frontend-1",
+    "cpu": "0.0",
+    "memory": "1.8"
+  },
+  {
+    "timestamp": "2026-03-04T15:51:49.192470",
+    "container": "5mernstack-mongo_express-1",
+    "cpu": "0.0",
+    "memory": "2.1"
+  },
+  {
+    "timestamp": "2026-03-04T15:51:51.197980",
+    "container": "5mernstack-mongodb-1",
+    "cpu": "0.1",
+    "memory": "1.2"
+  },
+  {
+    "timestamp": "2026-03-04T15:51:53.212473",
+    "container": "3buildingasimplemulti-containerapplication-redis-1",
+    "cpu": "0.5",
+    "memory": "0.2"
+  },
+  {
+    "timestamp": "2026-03-04T15:51:55.218915",
+    "container": "5mernstack-frontend-1",
+    "cpu": "0.0",
+    "memory": "1.8"
+  },
+  {
+    "timestamp": "2026-03-04T15:51:57.224756",
+    "container": "5mernstack-mongo_express-1",
+    "cpu": "0.0",
+    "memory": "2.1"
+  }
+]

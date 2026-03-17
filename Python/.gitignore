@@ -1,0 +1,8 @@
+venv/
+key.secret
+.vault_pass
+Task_4_PostgreSQL_Backup/pass.txt
+Task_4_PostgreSQL_Backup/backup.sql
+Task_4_PostgreSQL_Backup/backup.gz
+.aws
+__pycache__
