@@ -1,0 +1,25 @@
+name: Task2_matrix_build
+
+on: 
+  workflow_dispatch:
+# changed: [pull_request, push]
+
+jobs:
+  matrix:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        nodejs_version: [18, 20]
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js Version - ${{ matrix.nodejs_version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.nodejs_version }}
+
+      - name: Show nodejs version
+        run: node --version

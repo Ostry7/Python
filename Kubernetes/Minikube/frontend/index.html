@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <title>3-tier app</title>
+</head>
+<body>
+  <h1>Frontend działa</h1>
+  <button onclick="checkBackend()">Sprawdź backend</button>
+  <pre id="result"></pre>
+
+<script>
+  async function checkBackend() {
+    try {
+      const res = await fetch("/api/health");
+      const data = await res.json();
+      document.getElementById("result").textContent =
+        JSON.stringify(data, null, 2);
+    } catch (err) {
+      document.getElementById("result").textContent =
+        "Błąd: " + err;
+    }
+  }
+</script>
+
+</body>
+</html>

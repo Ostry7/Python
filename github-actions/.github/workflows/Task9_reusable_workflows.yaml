@@ -1,0 +1,16 @@
+name: Task9_reusable_workflows
+
+on: 
+  workflow_call: 
+
+    inputs:
+      environment:
+        type: string
+        description: "The environment to deploy to"
+        required: true
+        default: "production"
+jobs:
+  deploy:
+    runs-on: ubuntu-slim
+    steps:
+    - run: echo "Deploying to ${{ inputs.environment }} environment"

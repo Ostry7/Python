@@ -1,0 +1,19 @@
+name: Task3_conditional_steps
+
+on: 
+  push:
+  workflow_dispatch: 
+
+jobs:
+  commit_contains_skip_tests:
+    if: github.event_name == 'push' && contains(github.event.head_commit.message, 'skip tests')
+    runs-on: ubuntu-slim
+    steps:
+      - run: echo "Skipping tests due to commit message" 
+  
+  manual_trigger:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-slim
+    steps:
+      - run: echo "This is a manually triggered workflow!"
+

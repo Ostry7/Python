@@ -1,0 +1,231 @@
+#apiVersion: apps/v1
+#kind: Deployment
+#metadata:
+#  labels:
+#    app: nginx
+#  name: nginx
+#spec:
+#  replicas: 2 #previous: 1
+#  selector:
+#    matchLabels:
+#      app: nginx
+#  strategy: {}
+#  template:
+#    metadata:
+#      labels:
+#        app: nginx
+#    spec:
+#      containers:
+#      - image: nginx:1.29
+#        name: nginx
+#        resources: {}
+#status: {}
+
+
+###Task 4/5
+
+#apiVersion: apps/v1
+#kind: Deployment
+#metadata:
+#  name: mongo-express
+#spec:
+#  replicas: 1
+#  selector:
+#    matchLabels:
+#      app: mongo-express
+#  template:
+#    metadata:
+#      labels:
+#        app: mongo-express
+#    spec:
+#      containers:
+#      - name: mongo-express
+#        image: mongo-express:0.54.0
+#        env:
+#          - name: ME_CONFIG_MONGODB_SERVER
+#            value: mongo
+#          - name: ME_CONFIG_MONGODB_ADMINUSERNAME
+#            valueFrom:
+#              secretKeyRef:
+#                name: mongo-secrets
+#                key: ME_CONFIG_MONGODB_AUTH_USERNAME
+#          - name: ME_CONFIG_MONGODB_ADMINPASSWORD
+#            valueFrom:
+#              secretKeyRef:
+#                name: mongo-secrets
+#                key: ME_CONFIG_MONGODB_AUTH_PASSWORD
+#          - name: ME_CONFIG_MONGODB_AUTH_DATABASE
+#            valueFrom:
+#              secretKeyRef:
+#                name: mongo-secrets
+#                key: ME_CONFIG_MONGODB_AUTH_DATABASE
+#        ports:
+#        - containerPort: 8081
+#---
+#apiVersion: apps/v1
+#kind: Deployment
+#metadata:
+#  name: mongodatabase
+#spec:
+#  selector:
+#    matchLabels:
+#      app: mongodb
+#  template:
+#    metadata:
+#      labels:
+#        app: mongodb
+#    spec:
+#      containers:
+#      - name: mongodb
+#        image: mongo:4.2
+#        env:
+#          - name: MONGO_INITDB_ROOT_USERNAME
+#            valueFrom:
+#              secretKeyRef:
+#                name: mongo-secrets
+#                key: ME_CONFIG_MONGODB_AUTH_USERNAME
+#          - name: MONGO_INITDB_ROOT_PASSWORD
+#            valueFrom:
+#              secretKeyRef:
+#                name: mongo-secrets
+#                key: ME_CONFIG_MONGODB_AUTH_PASSWORD
+#        volumeMounts:
+#        - name: mongo-storage
+#          mountPath: /data/db
+#      volumes:
+#      - name: mongo-storage
+#        persistentVolumeClaim:
+#          claimName: mongo-claim
+
+# Task 7 - triple-stack
+
+#MySQL
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  namespace: triple-stack
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: mysql:latest
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+        env:
+          - name: MYSQL_ROOT_PASSWORD
+            valueFrom:
+              secretKeyRef: 
+                name: mysql-secrets
+                key:  MYSQL_ROOT_PASSWORD
+          - name: MYSQL_USER
+            valueFrom:
+              secretKeyRef:
+                name: mysql-secrets
+                key: MYSQL_USER
+          - name: MYSQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysql-secrets
+                key:  MYSQL_PASSWORD
+          - name: MYSQL_DATABASE
+            valueFrom:
+              configMapKeyRef:
+                name: mysql-configmap
+                key: MYSQL_DATABASE
+---
+
+#Backend -> nodejs
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-backend
+  namespace: triple-stack
+spec:
+  selector:
+    matchLabels:
+      app: myapp-backend
+  template:
+    metadata:
+      labels:
+        app: myapp-backend
+    spec:
+      containers:
+      - name: myapp-backend
+        image: minimal-backend:1.0
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi        
+        ports:
+        - containerPort: 3000
+        env:
+          - name: DB_HOST
+            value: mysql-service
+          - name: DB_PORT
+            value: "3306"
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: mysql-secrets
+                key:  MYSQL_USER
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysql-secrets
+                key:  MYSQL_PASSWORD
+          - name: DB_DATABASE
+            valueFrom:
+              configMapKeyRef:
+                name: mysql-configmap
+                key: MYSQL_DATABASE
+
+---
+#frontend
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp-frontend
+  namespace: triple-stack
+spec:
+  selector:
+    matchLabels:
+      app: myapp-frontend
+  template:
+    metadata:
+      labels:
+        app: myapp-frontend
+    spec:
+      containers:
+      - name: myapp-frontend
+        image: minimal-frontend:1.0
+        imagePullPolicy: IfNotPresent
+        resources:
+          requests:
+            cpu: 100m
+            memory: 128Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+        ports:
+        - containerPort: 80
+        env:
+        - name: BACKEND_URL
+          value: http://backend-service:3000

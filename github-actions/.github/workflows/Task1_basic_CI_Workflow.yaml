@@ -1,0 +1,20 @@
+name: Task1_basic_CI_Workflow
+on:
+  push:
+    branches:
+      - main
+jobs:
+  print_repo_details:
+    runs-on: ubuntu-slim
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Print repo name
+        run: |
+          echo "repo name: $GITHUB_REPOSITORY"
+      - name: Print branch name
+        run: |
+          echo "branch name: $GITHUB_REF_NAME"    #GITHUB_REF_NAME -> for push; GITHUB_HEAD_NAME -> for pull;
+      - name: Print SHA
+        run: |
+          echo "SHA: $GITHUB_SHA"

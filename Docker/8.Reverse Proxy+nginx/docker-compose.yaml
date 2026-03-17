@@ -1,0 +1,35 @@
+services:
+  nginx: 
+    image: nginx:mainline-perl
+    ports:
+      - "8080:80"
+    environment:
+     - NGINX_HOST=foobar.com
+     - NGINX_PORT=80
+    networks:
+      - vnet-lb
+    restart: always
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+
+  backend1:
+    build: ./backend
+    container_name: flask-app1
+    environment:
+      - INSTANCE_NAME=backend1
+    restart: on-failure
+    networks:
+      - vnet-lb
+
+  backend2:
+    build: ./backend
+    container_name: flask-app2
+    environment:
+      - INSTANCE_NAME=backend2
+    restart: on-failure
+    networks:
+      - vnet-lb
+
+networks:
+  vnet-lb:
+    driver: bridge

@@ -1,0 +1,40 @@
+#Elasticsearch[v] {DS engine} Logstash[v] {collecting logs} Kibana[v] {vizualize logs} collect logs
+
+services:
+  flask-app:
+    build: ./backend
+    volumes:
+      - ./backend/logs:/var/logs
+    networks:
+      - app1-NET
+    ports:
+      - 8001:8001
+
+  logstash:
+    image: logstash:9.2.0
+    volumes:
+      - ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
+      - ./backend/logs:/var/logs:ro
+    depends_on:
+      - elasticsearch
+
+  elasticsearch:
+    image: elasticsearch:9.2.0
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+    ports:
+      - 9200:9200
+
+  kibana:
+    image: kibana:9.2.0
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+
+networks:
+  app1-NET:
+    driver: bridge

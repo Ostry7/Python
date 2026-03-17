@@ -1,0 +1,24 @@
+{
+  "name": "github-actions",
+  "version": "1.0.0",
+  "description": "## Task 1: Basic CI Workflow [v]",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ostry7/github-actions.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ostry7/github-actions/issues"
+  },
+  "homepage": "https://github.com/Ostry7/github-actions#readme",
+  "devDependencies": {
+    "eslint": "^10.0.0"
+  },
+  "scripts": {
+  "build": "mkdir -p dist && echo 'Build successful' > dist/output.txt"
+}
+
+}

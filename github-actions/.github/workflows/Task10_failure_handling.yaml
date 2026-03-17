@@ -1,0 +1,36 @@
+name: Task10_failure_handling
+
+on: [workflow_dispatch]
+
+jobs:
+  sucessJob:
+    runs-on: ubuntu-slim
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Run
+        run: |
+          echo "Step 1..."
+      - name: Collect diagnostics
+        if: always()
+        run:  |
+          echo "Job name: ${{ github.job }}"
+          echo "Job status: ${{ job.status }}"
+
+  failureJob:
+    runs-on: ubuntu-slim
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Step 2
+        run: |
+          echo "Step 2..."
+      - name: FailureStep
+        run: |
+          exit 1
+      - name: Collect diagnostics
+        if: always()
+        run:  |
+          echo "Job name: ${{ github.job }}"
+          echo "Job status: ${{ job.status }}"
+          

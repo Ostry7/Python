@@ -1,0 +1,14 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: busybox-job1
+spec:
+  completions: 5
+  parallelism: 2
+  template:
+    spec:
+      containers:
+      - name: busybox-1
+        image: busybox:latest
+        command: ["/bin/sh", "-c", "echo 'exec number X of 5'"]
+      restartPolicy: Never
