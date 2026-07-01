@@ -1,9 +1,0 @@
-replicaCount: 1
-
-image:
-  repository: nginx
-  tag: "latest"
-
-service: 
-  type: NodePort
-  port: 80
